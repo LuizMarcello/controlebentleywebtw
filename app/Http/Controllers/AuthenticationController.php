@@ -26,6 +26,9 @@ class AuthenticationController extends Controller
             /* Quando logar, é sempre uma boa prática do laravel, dar um regenerate na sessão */
             $request->session()->regenerate();
 
+            /* Função intended(): */
+            /* Função de redirecionamento para a URL anterior, antes do login. */
+            /* "home" no caso, é uma URI de retaguarda. */
             return redirect()->intended('home');
         }
 
