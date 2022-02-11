@@ -1,6 +1,13 @@
 <?php
 
+/* Inicialmente não havia este "use". Dizia que o controller não existia. */
+
+use App\Http\Controllers\RegisterController;
+
+use App\Http\Controllers\AuthenticationController;
+
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +20,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/home', HomePage::class)->name('home');
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/register', [RegisterController::class, 'create']);
+
+/* Quando vem de formulários, é sempre "POST". */
+Route::post('/register', [RegisterController::class, 'store'])->name('register');
+
+Route::get('/login', [AuthenticationController::class, 'login'])->name('login.form');
+
+Route::post('/login', [AuthenticationController::class, 'logar'])->name('login');
