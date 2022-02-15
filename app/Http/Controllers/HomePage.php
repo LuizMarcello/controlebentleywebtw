@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class HomePage extends Controller
 {
+    /* Um dos modos para conferir que esteja logado: */
+    /* Usando o construtor deste controller */
+    //public function __construct()
+    //{
+    /* Middleware que garante que as "actions" deste controller estejam autenticadas. */
+    //$this->middleware('auth');
+    //}
+
+    /* Um outro modo, é aplicando o middleware diretamente na rota, em web.php */
+
     /**
      * Handle the incoming request.
      *
@@ -39,8 +49,8 @@ class HomePage extends Controller
         //$user = auth()->user();
 
         //return view('home', [
-            //'userId' => $user
-            //'user' => $user
+        //'userId' => $user
+        //'user' => $user
         //]);
 
         return view('home');

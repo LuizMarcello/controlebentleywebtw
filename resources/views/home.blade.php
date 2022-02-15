@@ -9,7 +9,7 @@
 
                     <div class="card-body">
 
-                         {{ auth()->user()->name }} está logado
+                         O usuário está está logado
 
                     </div>
                 </div>

@@ -2,11 +2,12 @@
 
 /* Inicialmente não havia este "use". Dizia que o controller não existia. */
 
-use App\Http\Controllers\RegisterController;
-
-use App\Http\Controllers\AuthenticationController;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuthenticationController;
 
 
 /*
@@ -20,22 +21,48 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', HomePage::class)->name('home');
+/* Método group(): Agrupa rotas. */
+/* Aplicando o middleware "auth" ao grupo de rotas. */
+/* Acesso a este grupo de rotas somente se logado. */
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', HomePage::class)->name('home');
+    Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+});
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register', [RegisterController::class, 'create']);
+Route::get('/email', function () {
+    Mail::send('auth.passwords.email', ['curso' => 'Eloquent'], function ($m) {
+        $m->from('luizmarcelloti@gmail.com', 'Luiz');
+        $m->subject('Email de teste');
+        $m->to('luizmarcello.vmo@hotmail.com');
+    });
+});
 
-/* Quando vem de links em páginas web, é sempre "GET". */
-/* Quando vem de formulários, é sempre "POST". */
-Route::post('/register', [RegisterController::class, 'store'])->name('register');
+/* Rota somente para usuários não logados, não autenticados */
+/* Middleware "guest" */
+/* Acesso a este grupo de rotas, somente se "não" estiver logado. */
+Route::group(['middleware' => 'guest'], function () {
+    /* Quando vem de links em páginas web, é sempre "GET". */
+    /* Quando vem de formulários, é sempre "POST". */
 
-Route::get('/login', [AuthenticationController::class, 'login'])->name('login.form');
+    /* Rota que mostrará o formulário de registro */
+    Route::get('/register', [RegisterController::class, 'create']);
 
-Route::post('/login', [AuthenticationController::class, 'logar'])->name('login');
+    /* Rota que criará o registro de usuários */
+    Route::post('/register', [RegisterController::class, 'store'])->name('register');
 
-/* Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout'); */
+    /* Rota que mostrará o formulário de login */
+    Route::get('/login', [AuthenticationController::class, 'login'])->name('login.form');
 
-Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+    /* Rota que vai logar o usuário, autenticar ele */
+    Route::post('/login', [AuthenticationController::class, 'logar'])->name('login');
+
+    /* Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout'); */
+});
+
+/* Middleware para garante o acesso a esta rota somente se logado. */
+//Route::get('/home', HomePage::class)->name('home')->middleware('auth');
