@@ -14,15 +14,18 @@ class AuthenticationController extends Controller
 
     public function logar(Request $request)
     {
+       /*  dd($request->remember); */
+
         /* Validando as informações preenchidas */
         $dados = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
-        /* Método específico do laravel, para logar:
-           É um "façade" */
-        if (Auth::attempt($dados)) {
+        /* attempt(): Método específico do laravel, para logar: É um "façade" */
+        /* filled(): Método que verifica se o campo "remember" do formulário de logar
+           está preenchido. Se "on" retorna "true", se "null" retorna "false". */
+        if (Auth::attempt($dados, $request->filled('remember'))) {
             /* Quando logar, é sempre uma boa prática do laravel, dar um regenerate na sessão */
             $request->session()->regenerate();
 
