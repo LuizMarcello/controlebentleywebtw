@@ -14,7 +14,7 @@ class AuthenticationController extends Controller
 
     public function logar(Request $request)
     {
-       /*  dd($request->remember); */
+        /*  dd($request->remember); */
 
         /* Validando as informações preenchidas */
         $dados = $request->validate([
@@ -38,5 +38,18 @@ class AuthenticationController extends Controller
         return back()->withErrors([
             'email' => 'O email e/ou senha não são válidos'
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+        /* Usanso a façade Auth() e o método logout() */
+        Auth::logout();
+        /* Usando o laravel helper session() e: */
+        /* Invalidando a sessão, e: */
+        $request->session()->invalidate();
+        /* Invalidando o token csfr */
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

@@ -9,17 +9,12 @@
 
                     <div class="card-body">
 
-                        {{-- {{ $user->name }} está logado --}}
+                         {{ auth()->user()->name }} está logado
 
-                        {{-- {{ $userId }} está logado --}}
-
-                        {{-- Ou não enviando nada do controler para a view, e
-                             usando o helper "auth()" diretamente aqui. --}}
-                       {{--  {{ auth()->user()->name }} está logado --}}
-                       O usuário está logado.
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 @endsection
+
+

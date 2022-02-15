@@ -38,24 +38,37 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{-- Usando o helper auth(), com o método "user()", com a propriedade "name" --}}
-                                {{ auth()->user()->name }}
-                                {{-- Nome Usuário --}}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="">
-                                    {{ __('Logout') }}
+                    {{-- Para não dar êrro se não estiver logado, usa um recurso do láravel, o método "check()".
+                         Se estiver logado retorna "true", daí então executa a <ul></ul> --}}
+                    @if (auth()->check())
+                        <!-- Right Side Of Navbar -->
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{-- Usando o helper laravel "auth()", o método "user()", e a propriedade "name" --}}
+                                    {{-- Mas só assim, se não estiver logado, dá êrro --}}
+                                    {{ auth()->user()->name }}
                                 </a>
-                            </div>
-                        </li>
-                    </ul>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    {{-- Usando o helper laravel "route()" --}}
+                                    {{-- Sempre que usamos um link numa página web, é enviado um "GET" --}}
+                                    {{-- Nos formulários, é enviado um "POST" --}}
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit()">
+                                        {{ __('Logout') }} </a>
+                                    {{-- Usando então um formulário, para que seja enviado um "POST" --}}
+                                    {{-- Usando classe do bootstrap para não mostrar este formulário --}}
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    @endif
+
                 </div>
             </div>
         </nav>

@@ -28,9 +28,14 @@ Route::get('/', function () {
 
 Route::get('/register', [RegisterController::class, 'create']);
 
+/* Quando vem de links em páginas web, é sempre "GET". */
 /* Quando vem de formulários, é sempre "POST". */
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 
 Route::get('/login', [AuthenticationController::class, 'login'])->name('login.form');
 
 Route::post('/login', [AuthenticationController::class, 'logar'])->name('login');
+
+/* Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout'); */
+
+Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
