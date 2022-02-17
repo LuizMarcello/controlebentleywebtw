@@ -18,11 +18,11 @@ class HomePage extends Controller
 
     /* Um outro modo, é aplicando o middleware diretamente na rota, em web.php */
 
+
     /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Mostra a página inicial do usuário logado.
+     *     
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      *
      * Este tipo de controller (invoke) só tem uma única ação(action).
      */

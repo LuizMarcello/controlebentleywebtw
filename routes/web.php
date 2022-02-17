@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\AuthenticationController;
 
 
@@ -62,6 +63,14 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [AuthenticationController::class, 'logar'])->name('login');
 
     /* Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout'); */
+
+    Route::get('/forget-password', [PasswordResetController::class, 'request'])->name('password.request');
+
+    Route::post('/forget-password', [PasswordResetController::class, 'email'])->name('password.email');
+
+    Route::get('/reset-password', [PasswordResetController::class, 'reset'])->name('password.reset');
+
+    Route::post('/reset-password', [PasswordResetController::class, 'update'])->name('password.update');
 });
 
 /* Middleware para garante o acesso a esta rota somente se logado. */

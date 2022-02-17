@@ -18,6 +18,13 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
+
+    /**
+     * Realiza a criação do usuário no banco de dados
+     *
+     *@return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+
     public function store(Request $request)
     {
         /* Validando os dados para salvar: */
